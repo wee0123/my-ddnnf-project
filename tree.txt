@@ -1,0 +1,323 @@
+./
+├── benchmarks
+│   ├── XSEngine.cnf
+│   ├── aaed2000.cnf
+│   ├── adder.cnf
+│   ├── adderII.cnf
+│   ├── aeb.cnf
+│   ├── aim711.cnf
+│   ├── aki3068net.cnf
+│   ├── am31_sim.cnf
+│   ├── asb.cnf
+│   ├── asb2305.cnf
+│   ├── assabet.cnf
+│   ├── at91sam7sek.cnf
+│   ├── at91sam7xek.cnf
+│   ├── atlas_mips32_4kc.cnf
+│   ├── atlas_mips64_5kc.cnf
+│   ├── axtls.cnf
+│   ├── brutus.cnf
+│   ├── buildroot.cnf
+│   ├── busybox_1_28_0.cnf
+│   ├── calm16_ceb.cnf
+│   ├── ddnnf_d4
+│   │   ├── XSEngine.nnf
+│   │   ├── aaed2000.nnf
+│   │   ├── adder.nnf
+│   │   ├── adderII.nnf
+│   │   ├── aeb.nnf
+│   │   ├── aim711.nnf
+│   │   ├── aki3068net.nnf
+│   │   ├── am31_sim.nnf
+│   │   ├── asb.nnf
+│   │   ├── asb2305.nnf
+│   │   ├── assabet.nnf
+│   │   ├── at91sam7sek.nnf
+│   │   ├── at91sam7xek.nnf
+│   │   ├── atlas_mips32_4kc.nnf
+│   │   ├── atlas_mips64_5kc.nnf
+│   │   ├── axtls.nnf
+│   │   ├── brutus.nnf
+│   │   ├── buildroot.nnf
+│   │   ├── busybox_1_28_0.nnf
+│   │   ├── calm16_ceb.nnf
+│   │   ├── calm32_ceb.nnf
+│   │   ├── ceb_v850.nnf
+│   │   ├── cerf.nnf
+│   │   ├── cerfpda.nnf
+│   │   ├── cma230.nnf
+│   │   ├── cma28x.nnf
+│   │   ├── cme555.nnf
+│   │   ├── cq7708.nnf
+│   │   ├── cq7750.nnf
+│   │   ├── csb281.nnf
+│   │   ├── dreamcast.nnf
+│   │   ├── e7t.nnf
+│   │   ├── ea2468.nnf
+│   │   ├── eb40.nnf
+│   │   ├── eb40a.nnf
+│   │   ├── eb42.nnf
+│   │   ├── eb55.nnf
+│   │   ├── ebsa285.nnf
+│   │   ├── ec555.nnf
+│   │   ├── ecos-icse11.nnf
+│   │   ├── edb7xxx.nnf
+│   │   ├── edosk2674.nnf
+│   │   ├── embtoolkit.nnf
+│   │   ├── excalibur_arm9.nnf
+│   │   ├── fads.nnf
+│   │   ├── financial.nnf
+│   │   ├── flexanet.nnf
+│   │   ├── freebsd-icse11.nnf
+│   │   ├── frv400.nnf
+│   │   ├── gps4020.nnf
+│   │   ├── grg.nnf
+│   │   ├── h8300h_sim.nnf
+│   │   ├── h8max.nnf
+│   │   ├── h8s_sim.nnf
+│   │   ├── hs7729pci.nnf
+│   │   ├── innovator.nnf
+│   │   ├── integrator_arm7.nnf
+│   │   ├── integrator_arm9.nnf
+│   │   ├── ipaq.nnf
+│   │   ├── iq80310.nnf
+│   │   ├── iq80321.nnf
+│   │   ├── ixdp425.nnf
+│   │   ├── jmr3904.nnf
+│   │   ├── jtst.nnf
+│   │   ├── linux.nnf
+│   │   ├── lpcmt.nnf
+│   │   ├── m5272c3.nnf
+│   │   ├── mac7100evb.nnf
+│   │   ├── mace1.nnf
+│   │   ├── malta_mips32_4kc.nnf
+│   │   ├── malta_mips64_5kc.nnf
+│   │   ├── mb93091.nnf
+│   │   ├── mb93093.nnf
+│   │   ├── mbx.nnf
+│   │   ├── mcb2100.nnf
+│   │   ├── moab.nnf
+│   │   ├── mpc50.nnf
+│   │   ├── nano.nnf
+│   │   ├── npwr.nnf
+│   │   ├── ocelot.nnf
+│   │   ├── olpce2294.nnf
+│   │   ├── olpch2294.nnf
+│   │   ├── olpcl2294.nnf
+│   │   ├── p2106.nnf
+│   │   ├── pati.nnf
+│   │   ├── pc_i82544.nnf
+│   │   ├── pc_i82559.nnf
+│   │   ├── pc_rltk8139.nnf
+│   │   ├── pc_usb_d12.nnf
+│   │   ├── pc_vmWare.nnf
+│   │   ├── phycore.nnf
+│   │   ├── phycore229x.nnf
+│   │   ├── picasso.nnf
+│   │   ├── pid.nnf
+│   │   ├── prpmc1100.nnf
+│   │   ├── psim.nnf
+│   │   ├── rattler.nnf
+│   │   ├── ref4955.nnf
+│   │   ├── refidt334.nnf
+│   │   ├── sa1100mm.nnf
+│   │   ├── sam7ex256.nnf
+│   │   ├── se7751.nnf
+│   │   ├── sh4_202_md.nnf
+│   │   ├── sh7708.nnf
+│   │   ├── skmb91302.nnf
+│   │   ├── sleb.nnf
+│   │   ├── smdk2410.nnf
+│   │   ├── snds.nnf
+│   │   ├── sparc_erc32.nnf
+│   │   ├── sparc_leon.nnf
+│   │   ├── sparclite_sim.nnf
+│   │   ├── stb.nnf
+│   │   ├── stdeval1.nnf
+│   │   ├── stm3210e_eval.nnf
+│   │   ├── ts1000.nnf
+│   │   ├── ts6.nnf
+│   │   ├── tx39_sim.nnf
+│   │   ├── uClinux.nnf
+│   │   ├── uE250.nnf
+│   │   ├── vads.nnf
+│   │   ├── viper.nnf
+│   │   ├── vrc4373.nnf
+│   │   └── vrc4375.nnf
+│   └── meta
+│       ├── bench_list.csv
+│       ├── bench_list_large.csv
+│       ├── bench_list_small.csv
+│       └── selected_models.txt
+├── experiments
+│   └── scripts
+│       ├── common
+│       ├── compile
+│       └── run
+├── my
+│   ├── Cargo.lock
+│   ├── Cargo.toml
+│   ├── Dockerfile
+│   ├── LICENSE
+│   ├── README.md
+│   ├── build.log
+│   ├── clean.sh
+│   ├── ddnnife_dw.sh
+│   ├── example_input
+│   │   ├── VP9_d4_42.nnf
+│   │   ├── X264.config
+│   │   ├── X264_c2d.nnf
+│   │   ├── adderII_d4_1276.nnf
+│   │   ├── aim711_d4_1277.nnf
+│   │   ├── auto1.cnf
+│   │   ├── auto1_c2d.nnf
+│   │   ├── auto1_d4_2513.nnf
+│   │   ├── auto2_4_c2d.nnf
+│   │   ├── axTLS_d4_684.nnf
+│   │   ├── berkeleydb_dsharp.nnf
+│   │   ├── berkeleydb_prepo.nnf
+│   │   ├── busybox-1.18.0_c2d.nnf
+│   │   ├── small_example_c2d.nnf
+│   │   └── stream_queries_auto1.txt
+│   ├── package-msys.bash
+│   ├── src
+│   │   ├── bin
+│   │   ├── ddnnf
+│   │   ├── ddnnf.rs
+│   │   ├── lib.rs
+│   │   ├── parser
+│   │   └── parser.rs
+│   ├── target
+│   │   ├── CACHEDIR.TAG
+│   │   ├── debug
+│   │   ├── flycheck0
+│   │   └── tmp
+│   ├── test_output.txt
+│   └── tests
+│       ├── cardinalities.rs
+│       ├── data
+│       ├── from_cnf.rs
+│       ├── out
+│       ├── parser.rs
+│       └── write_to_file.rs
+├── results
+│   ├── logs
+│   │   └── d4
+│   ├── minimal
+│   │   ├── logs
+│   │   ├── query_sets
+│   │   ├── summary
+│   │   ├── timing
+│   │   └── tmp
+│   ├── project
+│   ├── run1
+│   │   ├── ddnnife_from_cnf_features
+│   │   ├── logs
+│   │   └── timing
+│   ├── run2
+│   │   ├── ddnnife_from_cnf_features
+│   │   ├── logs
+│   │   └── timing
+│   ├── run3
+│   │   ├── logs
+│   │   └── timing
+│   └── timing
+│       ├── ddnnife_with_d4
+│       └── ganak_total
+├── tmp
+├── tools
+│   ├── Makefile
+│   ├── README
+│   ├── countAntom_1.0_source.tar.gz
+│   ├── d4
+│   │   ├── DAG
+│   │   ├── LICENSE
+│   │   ├── Makefile
+│   │   ├── README.md
+│   │   ├── benchTest
+│   │   ├── certification-master.tar.gz
+│   │   ├── compilers
+│   │   ├── core
+│   │   ├── d4
+│   │   ├── hashing
+│   │   ├── heuristics
+│   │   ├── interfaces
+│   │   ├── manager
+│   │   ├── modelCounters
+│   │   ├── mtl
+│   │   ├── objs
+│   │   ├── patoh
+│   │   ├── patoh_mac
+│   │   ├── preproc
+│   │   └── utils
+│   ├── ddnnf-reasoner-0.7.0
+│   │   ├── Cargo.lock
+│   │   ├── Cargo.toml
+│   │   ├── Dockerfile
+│   │   ├── LICENSE
+│   │   ├── README.md
+│   │   ├── build.log
+│   │   ├── clean.sh
+│   │   ├── ddnnife_dw.sh
+│   │   ├── example_input
+│   │   ├── package-msys.bash
+│   │   ├── src
+│   │   ├── target
+│   │   ├── test_output.txt
+│   │   └── tests
+│   ├── dsharp
+│   │   ├── AnalyzerData.o
+│   │   ├── AtomsAndNodes.o
+│   │   ├── Basics.o
+│   │   ├── DecisionStack.o
+│   │   ├── DecisionTree.o
+│   │   ├── FormulaCache.o
+│   │   ├── InstanceGraph.o
+│   │   ├── LICENSE
+│   │   ├── MainSolver.o
+│   │   ├── Makefile
+│   │   ├── Makefile_gmp
+│   │   ├── Makefile_nogmp
+│   │   ├── README.md
+│   │   ├── RealNumberTypes.o
+│   │   ├── SomeTime.o
+│   │   ├── VERSION.txt
+│   │   ├── astyle-and-clean.sh
+│   │   ├── dsharp
+│   │   ├── exp-testing
+│   │   ├── logo.png
+│   │   ├── main.o
+│   │   ├── src
+│   │   ├── unused
+│   │   └── validate.py
+│   ├── ganak
+│   │   ├── AUTHORS
+│   │   ├── CLAUDE.md
+│   │   ├── CMakeLists.txt
+│   │   ├── EMSCRIPTEN.md
+│   │   ├── LICENSE.txt
+│   │   ├── README.md
+│   │   ├── build
+│   │   ├── cmake
+│   │   ├── documents
+│   │   ├── flake.lock
+│   │   ├── flake.nix
+│   │   ├── ganakConfig.cmake.in
+│   │   ├── html
+│   │   ├── pyproject.toml
+│   │   ├── python
+│   │   ├── scripts
+│   │   ├── setup.py
+│   │   ├── src
+│   │   └── tests
+│   └── sharpSAT
+│       ├── CMakeLists.txt
+│       ├── LICENSE
+│       ├── README.md
+│       ├── build
+│       ├── setupdev.sh
+│       ├── src
+│       └── test
+└── tree.txt
+
+86 directories, 235 files
