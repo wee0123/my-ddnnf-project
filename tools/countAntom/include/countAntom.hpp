@@ -24,6 +24,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 ********************************************************************************************/
 
 // Include standard headers.
+#include <cstdint>
 #include <vector>
 // gnu bignum package - requires libgmp
 #include <gmpxx.h>

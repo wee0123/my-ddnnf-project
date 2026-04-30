@@ -189,9 +189,7 @@ impl Ddnnf {
         match features.len() {
             0 => self.rc(),
             1 => self.card_of_feature_with_marker(features[0]),
-            2..=20 => {
-                self.operate_on_partial_config_marker(features, Ddnnf::calc_count_marked_node)
-            }
+            2..=20 => self.operate_on_partial_config_omitted(features),
             _ => self.operate_on_partial_config_default(features, Ddnnf::calc_count),
         }
     }

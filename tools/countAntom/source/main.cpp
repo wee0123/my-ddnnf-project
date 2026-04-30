@@ -26,6 +26,7 @@
 #include <sstream>
 #include <cassert>
 #include <csignal>
+#include <cstdint>
 #include <string>
 #include <vector>
 // gnu bignum package - requires libgmp

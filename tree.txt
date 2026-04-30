@@ -1,26 +1,36 @@
-./
+.
 ├── benchmarks
-│   ├── XSEngine.cnf
-│   ├── aaed2000.cnf
-│   ├── adder.cnf
-│   ├── adderII.cnf
-│   ├── aeb.cnf
-│   ├── aim711.cnf
-│   ├── aki3068net.cnf
-│   ├── am31_sim.cnf
-│   ├── asb.cnf
-│   ├── asb2305.cnf
-│   ├── assabet.cnf
-│   ├── at91sam7sek.cnf
-│   ├── at91sam7xek.cnf
-│   ├── atlas_mips32_4kc.cnf
-│   ├── atlas_mips64_5kc.cnf
-│   ├── axtls.cnf
-│   ├── brutus.cnf
-│   ├── buildroot.cnf
-│   ├── busybox_1_28_0.cnf
-│   ├── calm16_ceb.cnf
-│   ├── ddnnf_d4
+│   ├── README_LAYOUT.md
+│   ├── cnf
+│   │   ├── XSEngine.cnf
+│   │   ├── aaed2000.cnf
+│   │   ├── adder.cnf
+│   │   ├── adderII.cnf
+│   │   ├── aeb.cnf
+│   │   ├── aim711.cnf
+│   │   ├── aki3068net.cnf
+│   │   ├── am31_sim.cnf
+│   │   ├── asb.cnf
+│   │   ├── asb2305.cnf
+│   │   ├── assabet.cnf
+│   │   ├── at91sam7sek.cnf
+│   │   ├── at91sam7xek.cnf
+│   │   ├── atlas_mips32_4kc.cnf
+│   │   ├── atlas_mips64_5kc.cnf
+│   │   ├── axtls.cnf
+│   │   ├── brutus.cnf
+│   │   ├── buildroot.cnf
+│   │   ├── busybox_1_28_0.cnf
+│   │   └── calm16_ceb.cnf
+│   └── meta
+│       ├── bench_list.csv
+│       ├── bench_list_large.csv
+│       ├── bench_list_small.csv
+│       └── selected_models.txt
+├── compiled
+│   ├── README_LAYOUT.md
+│   ├── c2d_nnf
+│   ├── d4_nnf
 │   │   ├── XSEngine.nnf
 │   │   ├── aaed2000.nnf
 │   │   ├── adder.nnf
@@ -144,23 +154,49 @@
 │   │   ├── viper.nnf
 │   │   ├── vrc4373.nnf
 │   │   └── vrc4375.nnf
-│   └── meta
-│       ├── bench_list.csv
-│       ├── bench_list_large.csv
-│       ├── bench_list_small.csv
-│       └── selected_models.txt
+│   ├── dsharp_nnf
+│   └── query_sets
+│       ├── XSEngine_queries.stream
+│       ├── XSEngine_queries.txt
+│       ├── aaed2000_queries.stream
+│       ├── aaed2000_queries.txt
+│       ├── aeb_queries.stream
+│       ├── aeb_queries.txt
+│       ├── axtls_queries.stream
+│       ├── axtls_queries.txt
+│       ├── busybox_1_28_0_queries.stream
+│       └── busybox_1_28_0_queries.txt
 ├── experiments
+│   ├── configs
+│   ├── notes
 │   └── scripts
 │       ├── common
 │       ├── compile
+│       ├── merge
+│       ├── parse
 │       └── run
+├── logs
+│   ├── compile
+│   │   ├── d4
+│   │   ├── dsharp
+│   │   └── others
+│   ├── debug
+│   │   ├── my
+│   │   └── paper_ddnnife
+│   └── run
+│       ├── countAntom
+│       ├── d4_query
+│       ├── ganak
+│       ├── my_ddnnife
+│       ├── paper_ddnnife
+│       └── query_ddnnf
 ├── my
 │   ├── Cargo.lock
 │   ├── Cargo.toml
 │   ├── Dockerfile
 │   ├── LICENSE
+│   ├── LOCAL_ROLE.md
 │   ├── README.md
-│   ├── build.log
 │   ├── clean.sh
 │   ├── ddnnife_dw.sh
 │   ├── example_input
@@ -192,7 +228,6 @@
 │   │   ├── debug
 │   │   ├── flycheck0
 │   │   └── tmp
-│   ├── test_output.txt
 │   └── tests
 │       ├── cardinalities.rs
 │       ├── data
@@ -200,9 +235,19 @@
 │       ├── out
 │       ├── parser.rs
 │       └── write_to_file.rs
+├── reorganize_project.sh
 ├── results
+│   ├── README_LAYOUT.md
+│   ├── archive
+│   │   ├── run1
+│   │   ├── run2
+│   │   └── run3
+│   ├── figures
 │   ├── logs
 │   │   └── d4
+│   ├── merged
+│   │   ├── csv
+│   │   └── summary
 │   ├── minimal
 │   │   ├── logs
 │   │   ├── query_sets
@@ -210,24 +255,37 @@
 │   │   ├── timing
 │   │   └── tmp
 │   ├── project
-│   ├── run1
-│   │   ├── ddnnife_from_cnf_features
-│   │   ├── logs
-│   │   └── timing
-│   ├── run2
-│   │   ├── ddnnife_from_cnf_features
-│   │   ├── logs
-│   │   └── timing
-│   ├── run3
-│   │   ├── logs
-│   │   └── timing
-│   └── timing
-│       ├── ddnnife_with_d4
-│       └── ganak_total
+│   ├── repeated_queries
+│   │   ├── d4_query
+│   │   ├── ganak
+│   │   ├── my_ddnnife
+│   │   ├── paper_ddnnife
+│   │   └── query_ddnnf
+│   ├── timing
+│   │   ├── ddnnife_with_d4
+│   │   └── ganak_total
+│   └── total_count
+│       ├── countAntom
+│       ├── d4_query
+│       ├── ganak
+│       ├── my_ddnnife
+│       ├── paper_ddnnife
+│       └── query_ddnnf
 ├── tmp
+│   ├── cache
+│   ├── failed_cases
+│   └── intermediate
 ├── tools
 │   ├── Makefile
 │   ├── README
+│   ├── countAntom
+│   │   ├── Makefile
+│   │   ├── README
+│   │   ├── bin
+│   │   ├── countAntom_1.0_source.tar.gz
+│   │   ├── include
+│   │   ├── source
+│   │   └── src
 │   ├── countAntom_1.0_source.tar.gz
 │   ├── d4
 │   │   ├── DAG
@@ -255,15 +313,14 @@
 │   │   ├── Cargo.toml
 │   │   ├── Dockerfile
 │   │   ├── LICENSE
+│   │   ├── LOCAL_ROLE.md
 │   │   ├── README.md
-│   │   ├── build.log
 │   │   ├── clean.sh
 │   │   ├── ddnnife_dw.sh
 │   │   ├── example_input
 │   │   ├── package-msys.bash
 │   │   ├── src
 │   │   ├── target
-│   │   ├── test_output.txt
 │   │   └── tests
 │   ├── dsharp
 │   │   ├── AnalyzerData.o
@@ -310,6 +367,11 @@
 │   │   ├── setup.py
 │   │   ├── src
 │   │   └── tests
+│   ├── query-ddnnf
+│   │   ├── bin
+│   │   ├── query-dnnf-0.4.180625
+│   │   ├── query-dnnf-0.4.180625.zip
+│   │   └── src
 │   └── sharpSAT
 │       ├── CMakeLists.txt
 │       ├── LICENSE
@@ -318,6 +380,7 @@
 │       ├── setupdev.sh
 │       ├── src
 │       └── test
-└── tree.txt
+├── tree.txt
+└── tree_before_reorganize.txt
 
-86 directories, 235 files
+132 directories, 252 files

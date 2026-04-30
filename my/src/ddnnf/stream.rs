@@ -692,7 +692,10 @@ mod test {
             String::from("1 2 6 10 15 19 25 31 40"),
             vp9.handle_stream_msg("core assumptions 1")
         );
-        assert_eq!(auto1.handle_stream_msg("core a 1 2 3").split(" ").count(), (auto1.number_of_variables * 2) as usize);
+        assert_eq!(
+            auto1.handle_stream_msg("core a 1 2 3").split(" ").count(),
+            (auto1.number_of_variables * 2) as usize
+        );
 
         assert_eq!(
             auto1.handle_stream_msg("core").split(" ").count(),

@@ -1,0 +1,122 @@
+{
+  "random_seed": 42,
+  "timeout_sec": 120,
+  "repeated_group_timeout_sec": 300,
+  "warmup_runs": 1,
+  "measured_runs": 10,
+  "max_workers": 1,
+  "metadata": {
+    "benchmark_csv": "benchmarks/meta/bench_list.csv",
+    "selected_models_txt": "benchmarks/meta/selected_models.txt",
+    "use_selected_models": true,
+    "name_column": "name",
+    "input_path_column": "input_path",
+    "format_column": "format",
+    "nvars_column": "n_vars",
+    "clause_column": "n_clauses",
+    "total_features_column": "total_features",
+    "size_class_column": "size_class"
+  },
+  "feature_bins": [
+    {
+      "name": "small",
+      "min": 0,
+      "max": 1000
+    },
+    {
+      "name": "large",
+      "min": 1001,
+      "max": 1000000000
+    }
+  ],
+  "selection": {
+    "max_models_per_bin": 20,
+    "explicit_model_allowlist": [],
+    "explicit_model_denylist": []
+  },
+  "query_generation": {
+    "feature_counts": [
+      1,
+      2,
+      5,
+      10,
+      20
+    ],
+    "queries_per_feature_count": 30,
+    "generic_query_dir": "compiled/query_sets/generated",
+    "overwrite": true
+  },
+  "paths": {
+    "cnf_dir": "benchmarks/cnf",
+    "d4_nnf_dir": "compiled/d4_nnf",
+    "c2d_nnf_dir": "compiled/c2d_nnf",
+    "results_total_dir": "results/total_count",
+    "results_repeated_dir": "results/repeated_queries",
+    "merged_csv_dir": "results/merged/csv",
+    "figures_dir": "results/figures",
+    "log_run_dir": "logs/run",
+    "tmp_dir": "tmp/intermediate"
+  },
+  "tools": {
+    "my_ddnnife": {
+      "enabled_total": true,
+      "enabled_repeated": true,
+      "kind": "ddnnife",
+      "binary": "my/target/release/ddnnife",
+      "nnf_source": "d4",
+      "total_cmd_template": "{bin} -t {total_features} {input_nnf} count",
+      "repeated_cmd_template": "{bin} -t {total_features} {nnf} count-queries {query_file} {output_prefix}"
+    },
+    "paper_ddnnife": {
+      "enabled_total": true,
+      "enabled_repeated": true,
+      "kind": "ddnnife",
+      "binary": "tools/ddnnf-reasoner-0.7.0/target/release/ddnnife",
+      "nnf_source": "d4",
+      "total_cmd_template": "{bin} -t {total_features} {input_nnf} count",
+      "repeated_cmd_template": "{bin} -t {total_features} {nnf} count-queries {query_file} {output_prefix}"
+    },
+    "ganak": {
+      "enabled_total": true,
+      "enabled_repeated": true,
+      "kind": "direct_counter",
+      "binary": "tools/ganak/build/ganak",
+      "total_cmd_template": "{bin} --mode=1 {cnf}",
+      "repeated_cmd_template": "{bin} --mode=1 {conditioned_cnf}",
+      "stdout_count_patterns": [
+        "(?im)^\\s*s\\s+mc\\s+(.+?)\\s*$",
+        "(?im)^\\s*count\\s*[:=]\\s*(.+?)\\s*$"
+      ]
+    },
+    "sharpSAT": {
+      "enabled_total": true,
+      "enabled_repeated": true,
+      "kind": "direct_counter",
+      "binary": "tools/sharpSAT/build/sharpSAT",
+      "total_cmd_template": "{bin} {cnf}",
+      "repeated_cmd_template": "{bin} {conditioned_cnf}"
+    },
+    "countAntom": {
+      "enabled_total": true,
+      "enabled_repeated": true,
+      "kind": "direct_counter",
+      "binary": "tools/countAntom/source/countAntom",
+      "total_cmd_template": "{bin} {cnf}",
+      "repeated_cmd_template": "{bin} {conditioned_cnf}",
+      "stdout_count_patterns": [
+        "(?im)^\\s*s\\s+mc\\s+(.+?)\\s*$",
+        "(?im)^\\s*s\\s+(.+?)\\s*$",
+        "(?im)^\\s*count\\s*[:=]\\s*(.+?)\\s*$"
+      ],
+      "notes": "Verify this command once against your local countAntom build. Different builds may require slightly different flags."
+    },
+    "query_ddnnf": {
+      "enabled_total": false,
+      "enabled_repeated": false,
+      "kind": "query_ddnnf",
+      "binary": "tools/query-ddnnf/query-dnnf-0.4.180625/src/query-dnnf",
+      "nnf_source": "c2d",
+      "notes": "query-ddnnf supports c2d-style NNF. This route requires compiled/c2d_nnf/{model}.nnf artifacts."
+    }
+  }
+}

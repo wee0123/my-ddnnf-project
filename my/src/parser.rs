@@ -82,13 +82,13 @@ pub fn distribute_building(
 
     match lex_line_c2d(lines[0].trim()) {
         Ok((
-               _,
-               Header {
-                   nodes: _,
-                   edges: _,
-                   variables,
-               },
-           )) => build_c2d_ddnnf(lines, variables as u32, clauses),
+            _,
+            Header {
+                nodes: _,
+                edges: _,
+                variables,
+            },
+        )) => build_c2d_ddnnf(lines, variables as u32, clauses),
         Ok(_) | Err(_) => match total_features {
             Some(o) => build_d4_ddnnf_opt(lines, Some(o), clauses),
             None => {
@@ -125,8 +125,8 @@ fn run_d4_to_file(input_cnf: &str, output_nnf: &str) {
 }
 
 fn parse_dimacs_info(path: &str) -> (Option<u32>, BTreeSet<BTreeSet<i32>>) {
-    let file = File::open(path)
-        .unwrap_or_else(|e| panic!("Failed to open CNF file \"{}\": {}", path, e));
+    let file =
+        File::open(path).unwrap_or_else(|e| panic!("Failed to open CNF file \"{}\": {}", path, e));
 
     let reader = BufReader::new(file);
 
@@ -135,9 +135,8 @@ fn parse_dimacs_info(path: &str) -> (Option<u32>, BTreeSet<BTreeSet<i32>>) {
     let mut current_clause: BTreeSet<i32> = BTreeSet::new();
 
     for line in reader.lines() {
-        let line = line.unwrap_or_else(|e| {
-            panic!("Failed to read line from CNF file \"{}\": {}", path, e)
-        });
+        let line = line
+            .unwrap_or_else(|e| panic!("Failed to read line from CNF file \"{}\": {}", path, e));
 
         let line = line.trim();
 
@@ -163,7 +162,10 @@ fn parse_dimacs_info(path: &str) -> (Option<u32>, BTreeSet<BTreeSet<i32>>) {
 
         for tok in line.split_whitespace() {
             let lit = tok.parse::<i32>().unwrap_or_else(|e| {
-                panic!("Invalid literal \"{}\" in CNF file \"{}\": {}", tok, path, e)
+                panic!(
+                    "Invalid literal \"{}\" in CNF file \"{}\": {}",
+                    tok, path, e
+                )
             });
 
             if lit == 0 {
@@ -426,13 +428,13 @@ fn simplify_constants(ctx: &mut D4BuildContext) {
     loop {
         let mut dfs = DfsPostOrder::new(&ctx.graph, ctx.root.unwrap());
         let mut nodes = Vec::new();
-        let all_nodes:Vec<NodeIndex> = ctx.graph.node_indices().collect();
+        let all_nodes: Vec<NodeIndex> = ctx.graph.node_indices().collect();
 
         while let Some(nx) = dfs.next(&ctx.graph) {
             nodes.push(nx);
         }
 
-        let reachable:HashSet<NodeIndex> = nodes.iter().copied().collect();
+        let reachable: HashSet<NodeIndex> = nodes.iter().copied().collect();
         for node in all_nodes {
             if ctx.graph.contains_node(node) && !reachable.contains(&node) {
                 ctx.graph.remove_node(node);
@@ -449,7 +451,12 @@ fn simplify_constants(ctx: &mut D4BuildContext) {
     }
 }
 
-fn simplify_with_rules(graph: &mut StableGraph<TId, ()>, nodes: Vec<NodeIndex>, cache: &mut InfoCache, root: Option<NodeIndex>) -> bool {
+fn simplify_with_rules(
+    graph: &mut StableGraph<TId, ()>,
+    nodes: Vec<NodeIndex>,
+    cache: &mut InfoCache,
+    root: Option<NodeIndex>,
+) -> bool {
     let mut all_changed = false;
     for nx in nodes {
         if !graph.contains_node(nx) {
@@ -525,7 +532,11 @@ fn remove_false_from_or(graph: &mut StableGraph<TId, ()>, node: NodeIndex) -> bo
 }
 
 //And(false, a)->false
-fn remove_and_with_false(graph: &mut StableGraph<TId, ()>, node: NodeIndex, root: Option<NodeIndex>) -> bool {
+fn remove_and_with_false(
+    graph: &mut StableGraph<TId, ()>,
+    node: NodeIndex,
+    root: Option<NodeIndex>,
+) -> bool {
     if graph[node] != TId::False {
         return false;
     }
@@ -561,7 +572,11 @@ fn remove_and_with_false(graph: &mut StableGraph<TId, ()>, node: NodeIndex, root
 }
 
 //Or(true, a)->true
-fn remove_or_with_true(graph: &mut StableGraph<TId, ()>, node: NodeIndex, root: Option<NodeIndex>) -> bool {
+fn remove_or_with_true(
+    graph: &mut StableGraph<TId, ()>,
+    node: NodeIndex,
+    root: Option<NodeIndex>,
+) -> bool {
     if graph[node] != TId::True {
         return false;
     }
@@ -596,7 +611,11 @@ fn remove_or_with_true(graph: &mut StableGraph<TId, ()>, node: NodeIndex, root: 
 }
 
 //And(a)->a; Or(a)->a
-fn flatten_single_child(graph: &mut StableGraph<TId, ()>, node: NodeIndex, root: Option<NodeIndex>) -> bool {
+fn flatten_single_child(
+    graph: &mut StableGraph<TId, ()>,
+    node: NodeIndex,
+    root: Option<NodeIndex>,
+) -> bool {
     let children: Vec<_> = graph.neighbors_directed(node, Outgoing).collect();
     if children.len() != 1 || Some(node) == root {
         return false;
@@ -672,7 +691,7 @@ fn remove_duplicate_children(graph: &mut StableGraph<TId, ()>, node: NodeIndex) 
 
 #[derive(Clone, Debug, Default)]
 struct NodeInfo {
-    vars: HashSet<u32>, 
+    vars: HashSet<u32>,
     has_true: bool,
     has_false: bool,
 }
