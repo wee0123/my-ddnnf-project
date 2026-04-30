@@ -1,0 +1,11 @@
+/home/zansin/bishe/my/target/debug/deps/serial_test-49339c4a1711126a.d: /home/zansin/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serial_test-2.0.0/src/lib.rs /home/zansin/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serial_test-2.0.0/src/code_lock.rs /home/zansin/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serial_test-2.0.0/src/parallel_code_lock.rs /home/zansin/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serial_test-2.0.0/src/rwlock.rs /home/zansin/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serial_test-2.0.0/src/serial_code_lock.rs
+
+/home/zansin/bishe/my/target/debug/deps/libserial_test-49339c4a1711126a.rlib: /home/zansin/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serial_test-2.0.0/src/lib.rs /home/zansin/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serial_test-2.0.0/src/code_lock.rs /home/zansin/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serial_test-2.0.0/src/parallel_code_lock.rs /home/zansin/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serial_test-2.0.0/src/rwlock.rs /home/zansin/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serial_test-2.0.0/src/serial_code_lock.rs
+
+/home/zansin/bishe/my/target/debug/deps/libserial_test-49339c4a1711126a.rmeta: /home/zansin/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serial_test-2.0.0/src/lib.rs /home/zansin/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serial_test-2.0.0/src/code_lock.rs /home/zansin/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serial_test-2.0.0/src/parallel_code_lock.rs /home/zansin/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serial_test-2.0.0/src/rwlock.rs /home/zansin/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serial_test-2.0.0/src/serial_code_lock.rs
+
+/home/zansin/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serial_test-2.0.0/src/lib.rs:
+/home/zansin/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serial_test-2.0.0/src/code_lock.rs:
+/home/zansin/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serial_test-2.0.0/src/parallel_code_lock.rs:
+/home/zansin/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serial_test-2.0.0/src/rwlock.rs:
+/home/zansin/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serial_test-2.0.0/src/serial_code_lock.rs:

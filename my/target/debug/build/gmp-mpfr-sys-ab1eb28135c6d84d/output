@@ -1,0 +1,19 @@
+cargo:rerun-if-env-changed=GMP_MPFR_SYS_CACHE
+$ mkdir -p "/home/zansin/my/target/debug/build/gmp-mpfr-sys-ab1eb28135c6d84d/out/lib"
+$ mkdir -p "/home/zansin/my/target/debug/build/gmp-mpfr-sys-ab1eb28135c6d84d/out/include"
+$ cp "/home/zansin/.cache/gmp-mpfr-sys/1.7/x86_64-unknown-linux-gnu/1.7.0/libmpfr.a" "/home/zansin/my/target/debug/build/gmp-mpfr-sys-ab1eb28135c6d84d/out/lib/libmpfr.a"
+$ cp "/home/zansin/.cache/gmp-mpfr-sys/1.7/x86_64-unknown-linux-gnu/1.7.0/mpfr.h" "/home/zansin/my/target/debug/build/gmp-mpfr-sys-ab1eb28135c6d84d/out/include/mpfr.h"
+$ cp "/home/zansin/.cache/gmp-mpfr-sys/1.7/x86_64-unknown-linux-gnu/1.7.0/libgmp.a" "/home/zansin/my/target/debug/build/gmp-mpfr-sys-ab1eb28135c6d84d/out/lib/libgmp.a"
+cargo:limb_bits=64
+cargo:rustc-check-cfg=cfg(nails)
+cargo:rustc-check-cfg=cfg(long_long_limb)
+$ cp "/home/zansin/.cache/gmp-mpfr-sys/1.7/x86_64-unknown-linux-gnu/1.7.0/gmp.h" "/home/zansin/my/target/debug/build/gmp-mpfr-sys-ab1eb28135c6d84d/out/include/gmp.h"
+cargo:limb_bits=64
+cargo:rustc-check-cfg=cfg(nails)
+cargo:rustc-check-cfg=cfg(long_long_limb)
+cargo:out_dir=/home/zansin/my/target/debug/build/gmp-mpfr-sys-ab1eb28135c6d84d/out
+cargo:lib_dir=/home/zansin/my/target/debug/build/gmp-mpfr-sys-ab1eb28135c6d84d/out/lib
+cargo:include_dir=/home/zansin/my/target/debug/build/gmp-mpfr-sys-ab1eb28135c6d84d/out/include
+cargo:rustc-link-search=native=/home/zansin/my/target/debug/build/gmp-mpfr-sys-ab1eb28135c6d84d/out/lib
+cargo:rustc-link-lib=static=mpfr
+cargo:rustc-link-lib=static=gmp
