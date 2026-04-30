@@ -1,4 +1,4 @@
 name,input_path,format,n_vars,n_clauses,total_features,size_class
-axtls,/home/zansin/benchmarks/axtls.cnf,cnf,94,190,94,small
-buildroot,/home/zansin/benchmarks/buildroot.cnf,cnf,565,1164,565,small
-busybox_1_28_0,/home/zansin/benchmarks/busybox_1_28_0.cnf,cnf,998,962,998,small
+axtls,benchmarks/cnf/axtls.cnf,cnf,94,190,94,small
+buildroot,benchmarks/cnf/buildroot.cnf,cnf,565,1164,565,small
+busybox_1_28_0,benchmarks/cnf/busybox_1_28_0.cnf,cnf,998,962,998,small
