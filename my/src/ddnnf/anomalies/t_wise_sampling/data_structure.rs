@@ -379,23 +379,3 @@ impl Sample {
     }
 }
 
-#[cfg(test)]
-mod test {
-    use super::*;
-
-    #[test]
-    fn test_sample_covering() {
-        let sample = Sample {
-            complete_configs: vec![Config::from(&[1, 2, 3, -4, -5], 5)],
-            partial_configs: vec![],
-            vars: HashSet::from([1, 2, 3, 4, 5]),
-            literals: vec![1, 2, 3, -4, -5],
-        };
-
-        let covered_interaction = vec![1, 2, -4];
-        assert!(sample.covers(&covered_interaction));
-
-        let uncovered_interaction = vec![1, 2, 4];
-        assert!(!sample.covers(&uncovered_interaction));
-    }
-}

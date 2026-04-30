@@ -63,18 +63,20 @@
       "enabled_repeated": true,
       "kind": "ddnnife",
       "binary": "my/target/release/ddnnife",
-      "nnf_source": "d4",
-      "total_cmd_template": "{bin} -t {total_features} {input_nnf} count",
-      "repeated_cmd_template": "{bin} -t {total_features} {nnf} count-queries {query_file} {output_prefix}"
+      "input_source": "cnf",
+      "includes_compile_time": true,
+      "total_cmd_template": "{bin} -t {total_features} {cnf} count",
+      "repeated_cmd_template": "{bin} -t {total_features} {cnf} count-queries {query_file} {output_prefix}"
     },
     "paper_ddnnife": {
       "enabled_total": true,
       "enabled_repeated": true,
       "kind": "ddnnife",
       "binary": "tools/ddnnf-reasoner-0.7.0/target/release/ddnnife",
-      "nnf_source": "d4",
-      "total_cmd_template": "{bin} -t {total_features} {input_nnf} count",
-      "repeated_cmd_template": "{bin} -t {total_features} {nnf} count-queries {query_file} {output_prefix}"
+      "input_source": "cnf",
+      "includes_compile_time": true,
+      "total_cmd_template": "{bin} -t {total_features} {cnf} count",
+      "repeated_cmd_template": "{bin} -t {total_features} {cnf} count-queries {query_file} {output_prefix}"
     },
     "ganak": {
       "enabled_total": true,
@@ -107,16 +109,14 @@
         "(?im)^\\s*s\\s+mc\\s+(.+?)\\s*$",
         "(?im)^\\s*s\\s+(.+?)\\s*$",
         "(?im)^\\s*count\\s*[:=]\\s*(.+?)\\s*$"
-      ],
-      "notes": "Verify this command once against your local countAntom build. Different builds may require slightly different flags."
+      ]
     },
     "query_ddnnf": {
       "enabled_total": false,
       "enabled_repeated": false,
       "kind": "query_ddnnf",
       "binary": "tools/query-ddnnf/query-dnnf-0.4.180625/src/query-dnnf",
-      "nnf_source": "c2d",
-      "notes": "query-ddnnf supports c2d-style NNF. This route requires compiled/c2d_nnf/{model}.nnf artifacts."
+      "nnf_source": "c2d"
     }
   }
 }

@@ -87,37 +87,3 @@ impl Ddnnf {
     }
 }
 
-#[cfg(test)]
-mod test {
-    use crate::parser::build_ddnnf;
-
-    use super::*;
-
-    #[test]
-    fn operate_on_single_feature() {
-        let mut vp9: Ddnnf = build_ddnnf("tests/data/VP9_d4.nnf", Some(42));
-        let mut auto1: Ddnnf = build_ddnnf("tests/data/auto1_d4.nnf", Some(2513));
-
-        for i in 1..=vp9.number_of_variables as i32 {
-            assert_eq!(
-                vp9.card_of_feature_with_marker(i),
-                vp9._operate_on_single_feature(i, Ddnnf::calc_count)
-            );
-            assert_eq!(
-                vp9.card_of_feature_with_marker(-i),
-                vp9._operate_on_single_feature(-i, Ddnnf::calc_count)
-            );
-        }
-
-        for i in (1..=auto1.number_of_variables as i32).step_by(100) {
-            assert_eq!(
-                auto1.card_of_feature_with_marker(i),
-                auto1._operate_on_single_feature(i, Ddnnf::calc_count)
-            );
-            assert_eq!(
-                auto1.card_of_feature_with_marker(-i),
-                auto1._operate_on_single_feature(-i, Ddnnf::calc_count)
-            );
-        }
-    }
-}

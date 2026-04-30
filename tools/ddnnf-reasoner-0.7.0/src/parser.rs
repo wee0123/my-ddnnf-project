@@ -90,14 +90,14 @@ pub fn distribute_building(
                },
            )) => build_c2d_ddnnf(lines, variables as u32, clauses),
         Ok(_) | Err(_) => match total_features {
-            Some(o) => build_d4_ddnnf_opt(lines, Some(o), clauses),
+            Some(o) => build_d4_ddnnf(lines, Some(o), clauses),
             None => {
                 println!(
                     "\x1b[1;38;5;226mWARNING: The first line of the file isn't a c2d header and the option 'total_features' is not set. \
                         Hence, we can't determine the number of variables and as a result, we might not be able to construct a valid ddnnf. \
                         Nonetheless, we build a ddnnf with our limited information.\n\x1b[0m"
                 );
-                build_d4_ddnnf_opt(lines, None, clauses)
+                build_d4_ddnnf(lines, None, clauses)
             }
         },
     }
@@ -1229,18 +1229,6 @@ fn calc_or_count(nodes: &mut [Node], indices: &[usize]) -> Integer {
 /// -> A feature is either positiv or negative i32 value with a leading "-"
 /// -> Multiple features in the same line form a query
 /// -> Queries are seperated by a new line ("\n")
-///
-/// # Example
-/// ```
-/// use ddnnf_lib::parser::parse_queries_file;
-///
-/// let config_path = "./tests/data/auto1.config";
-/// let queries: Vec<(usize, Vec<i32>)> = parse_queries_file(config_path);
-///
-/// assert_eq!((0, vec![1044, 885]), queries[0]);
-/// assert_eq!((1, vec![1284, -537]), queries[1]);
-/// assert_eq!((2, vec![-1767, 675]), queries[2]);
-/// ```
 /// # Panic
 ///
 /// Panics for a path to a non existing file

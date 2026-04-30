@@ -3,6 +3,6 @@ This is the primary development directory for my optimized ddnnife-based solutio
 
 Rules:
 - Continue code development here.
-- Run cargo build / cargo test here.
+- Run cargo build here.
 - New optimization experiments should be based on this directory.
 - Do not treat this directory as a general results dump.

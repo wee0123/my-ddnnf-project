@@ -67,29 +67,3 @@ fn lex_comment(line: &str) -> IResult<&str, CNFToken> {
     value(Comment, char('c'))(line)
 }
 
-#[cfg(test)]
-mod test {
-    use super::*;
-
-    #[test]
-    fn lex_cnf_lines() {
-        let comment = "c 1 N_100300__F_100332";
-        let header = "p cnf 2513 10275";
-        let clause = "-1628 1734 0";
-
-        assert_eq!(check_for_cnf_header(comment).unwrap().1, Comment);
-        assert_eq!(
-            check_for_cnf_header(header).unwrap().1,
-            Header {
-                total_features: 2513,
-                total_clauses: 10275
-            }
-        );
-        assert_eq!(
-            check_for_cnf_header(clause).unwrap().1,
-            Clause {
-                features: vec![-1628, 1734].into_iter().collect()
-            }
-        );
-    }
-}

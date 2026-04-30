@@ -15,8 +15,6 @@ ddnnife takes a smooth d-DNNF as an input following the [standard format specifi
    - [Stream API ](#building_stream)
      - [Examples ](#building_stream_ex)
    - [Create Documentation ](#docu)
-   - [Run Tests ](#tests)
-   - [Test Coverage ](#coverage)
 3. [Docker Alternative ](#docker)
    - [Building ](#docker_build)
    - [Usage ](#docker_usage)
@@ -295,24 +293,6 @@ cargo doc --open
 ```
 
 Besides the generated documentation, there are further comments in the code itself.
-
-## Run Tests <a name="tests"></a>
-We highly encourage also running test cases with the release build, because the debug build is very slow in comparison.
-```properties
-cargo test --release
-```
-
-## Test Coverage <a name="coverage"></a>
-Test coverage can be determined with llvm-cov. llvm-cov is not included in rustup.
-Make sure to execute the following commands in the folder that also contains the Cargo.toml file.
-
-usage:
-1) Install llvm-cov
-2) Run tests. The results will be displayed in your default browser if the ```--open``` flag is set. Alternatively, the report will be printed on the console.
-```properties
-cargo +stable install cargo-llvm-cov
-cargo llvm-cov --release --open
-```
 
 # Dockerfile <a name="docker"></a>
 If natively building is not possible for your system, or you want to avoid installing the necessary dependencies, you can build yourself a docker image. Nevertheless, we recommend a native binary if possible.

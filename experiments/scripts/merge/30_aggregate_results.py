@@ -57,6 +57,8 @@ def read_compile_time(root: Path, model: str, source: str = "d4") -> float:
 
 def compile_time_for_tool(root: Path, cfg: dict, tool: str, model: str) -> float:
     tool_cfg = cfg.get("tools", {}).get(tool, {})
+    if tool_cfg.get("includes_compile_time", False):
+        return 0.0
     if tool_cfg.get("kind") not in {"ddnnife", "query_ddnnf"}:
         return 0.0
     source = tool_cfg.get("nnf_source", "d4")

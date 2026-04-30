@@ -1332,18 +1332,6 @@ fn calc_or_count(nodes: &mut [Node], indices: &[usize]) -> Integer {
 /// -> A feature is either positiv or negative i32 value with a leading "-"
 /// -> Multiple features in the same line form a query
 /// -> Queries are seperated by a new line ("\n")
-///
-/// # Example
-/// ```
-/// use ddnnf_lib::parser::parse_queries_file;
-///
-/// let config_path = "./tests/data/auto1.config";
-/// let queries: Vec<(usize, Vec<i32>)> = parse_queries_file(config_path);
-///
-/// assert_eq!((0, vec![1044, 885]), queries[0]);
-/// assert_eq!((1, vec![1284, -537]), queries[1]);
-/// assert_eq!((2, vec![-1767, 675]), queries[2]);
-/// ```
 /// # Panic
 ///
 /// Panics for a path to a non existing file

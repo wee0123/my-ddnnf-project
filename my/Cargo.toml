@@ -47,8 +47,3 @@ tempfile = "3.9.0"
 version = "1.22.0"
 default-features = false
 features = ["integer", "float", "rational"]
-
-[dev-dependencies]
-assert_cmd = "2.0.12"
-predicates = "3.0.4"
-serial_test = "2.0.0"

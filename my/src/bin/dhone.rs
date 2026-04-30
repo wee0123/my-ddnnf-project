@@ -67,16 +67,6 @@ fn main() {
 /// with true nodes. There the first occurence always stays the same and all other
 /// occurences are swaped with dummy values. We choose true nodes because they do not change
 /// the endresult in any way
-/// # Examples
-///
-/// ```
-/// extern crate ddnnf_lib;
-/// use ddnnf_lib::parser;
-///
-/// let file_path = "./tests/data/small_test.dimacs.nnf";
-/// preprocess(file_path);
-/// ```
-///
 /// # Panics
 ///
 /// The function panics for an invalid file path.

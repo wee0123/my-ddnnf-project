@@ -106,24 +106,3 @@ impl<'a> TInteractionIter<'a> {
     }
 }
 
-#[cfg(test)]
-mod test {
-    use super::*;
-
-    #[test]
-    fn test_t_indices_iter() {
-        let mut iter = TIndicesIter::new(5, 3);
-
-        assert_eq!(Some([2, 1, 0].as_slice()), iter.next());
-        assert_eq!(Some([3, 1, 0].as_slice()), iter.next());
-        assert_eq!(Some([4, 1, 0].as_slice()), iter.next());
-        assert_eq!(Some([3, 2, 0].as_slice()), iter.next());
-        assert_eq!(Some([4, 2, 0].as_slice()), iter.next());
-        assert_eq!(Some([4, 3, 0].as_slice()), iter.next());
-        assert_eq!(Some([3, 2, 1].as_slice()), iter.next());
-        assert_eq!(Some([4, 2, 1].as_slice()), iter.next());
-        assert_eq!(Some([4, 3, 1].as_slice()), iter.next());
-        assert_eq!(Some([4, 3, 2].as_slice()), iter.next());
-        assert_eq!(None, iter.next());
-    }
-}

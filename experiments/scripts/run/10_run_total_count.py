@@ -81,7 +81,7 @@ def main():
                 continue
 
             nnf = None
-            if tool.get("kind") in {"query_ddnnf", "ddnnife"}:
+            if tool.get("kind") == "query_ddnnf":
                 source = tool.get("nnf_source", "c2d")
                 if source == "c2d":
                     nnf = c2d_nnf_dir / f"{model}.nnf"

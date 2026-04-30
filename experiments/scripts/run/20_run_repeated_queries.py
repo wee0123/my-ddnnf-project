@@ -124,7 +124,7 @@ def main():
                 queries = read_generic_query_file(query_file)
 
                 nnf = None
-                if tool.get("kind") in {"ddnnife", "query_ddnnf"}:
+                if tool.get("kind") == "query_ddnnf":
                     source = tool.get("nnf_source", "d4")
                     if source == "c2d":
                         nnf = c2d_nnf_dir / f"{model}.nnf"

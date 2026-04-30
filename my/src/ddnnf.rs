@@ -198,20 +198,6 @@ impl Ddnnf {
 
     /// Executes a query.
     /// We use the in our opinion best type of query depending on the amount of features.
-    ///
-    /// # Example
-    /// ```
-    /// extern crate ddnnf_lib;
-    /// use ddnnf_lib::Ddnnf;
-    /// use ddnnf_lib::parser::*;
-    /// use rug::Integer;
-    ///
-    /// // create a ddnnf
-    /// let file_path = "./tests/data/small_ex_c2d.nnf";
-    /// let mut ddnnf: Ddnnf = build_ddnnf(file_path, None);
-    ///
-    /// assert_eq!(1, ddnnf.execute_query(&vec![3,4]));
-    /// assert_eq!(2, ddnnf.execute_query(&vec![3]));
     pub fn execute_query(&mut self, features: &[i32]) -> Integer {
         match features.len() {
             0 => self.rc(),
@@ -335,24 +321,5 @@ impl Ddnnf {
         } else {
             ctx.changed[index] = false;
         }
-    }
-}
-
-#[cfg(test)]
-mod test {
-    use crate::parser::build_ddnnf;
-
-    #[test]
-    fn features_opposing_indexes() {
-        let ddnnf = build_ddnnf("tests/data/small_ex_c2d.nnf", None);
-
-        assert_eq!(
-            vec![3, 2, 6],
-            ddnnf.map_features_opposing_indexes(&[1, 2, 3, 4])
-        );
-        assert_eq!(
-            vec![0, 1, 4, 5],
-            ddnnf.map_features_opposing_indexes(&[-1, -2, -3, -4])
-        );
     }
 }

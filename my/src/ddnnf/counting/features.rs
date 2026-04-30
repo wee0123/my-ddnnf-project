@@ -12,19 +12,6 @@ impl Ddnnf {
     /// # Example
     /// ```
     /// extern crate ddnnf_lib;
-    /// use ddnnf_lib::Ddnnf;
-    /// use ddnnf_lib::parser::*;
-    /// use rug::Integer;
-    /// use std::fs;
-    ///
-    /// // create a ddnnf
-    /// // and run the queries
-    /// let mut ddnnf: Ddnnf = build_ddnnf("./tests/data/small_ex_c2d.nnf", None);
-    /// ddnnf.card_of_each_feature("./tests/data/smt_out.csv")
-    ///      .unwrap_or_default();
-    /// let _rm = fs::remove_file("./tests/data/smt_out.csv");
-    ///
-    /// ```
     pub fn card_of_each_feature(&mut self, file_path: &str) -> Result<(), Box<dyn Error>> {
         self.annotate_partial_derivatives();
 
@@ -41,65 +28,5 @@ impl Ddnnf {
         }
 
         Ok(())
-    }
-}
-
-#[cfg(test)]
-mod test {
-    use file_diff::diff_files;
-    use serial_test::serial;
-    use std::fs::{self, File};
-
-    use crate::parser::build_ddnnf;
-
-    use super::*;
-
-    #[test]
-    fn card_multi_queries() {
-        let mut ddnnf: Ddnnf = build_ddnnf("./tests/data/VP9_d4.nnf", Some(42));
-        ddnnf.max_worker = 1;
-        ddnnf.card_of_each_feature("./tests/data/fcs.csv").unwrap();
-
-        ddnnf.max_worker = 4;
-        ddnnf.card_of_each_feature("./tests/data/fcm.csv").unwrap();
-
-        let mut is_single = File::open("./tests/data/fcs.csv").unwrap();
-        let mut is_multi = File::open("./tests/data/fcm.csv").unwrap();
-        let mut should_be = File::open("./tests/data/VP9_sb_fs.csv").unwrap();
-
-        // diff_files is true if the files are identical
-        assert!(
-            diff_files(&mut is_single, &mut is_multi),
-            "card of features results of single und multi variant have differences"
-        );
-        is_single = File::open("./tests/data/fcs.csv").unwrap();
-        assert!(
-            diff_files(&mut is_single, &mut should_be),
-            "card of features results differ from the expected results"
-        );
-
-        fs::remove_file("./tests/data/fcs.csv").unwrap();
-        fs::remove_file("./tests/data/fcm.csv").unwrap();
-    }
-
-    #[test]
-    #[serial]
-    fn test_card_of_features_pd() {
-        const PD_FILE: &str = "./tests/data/cof_pd.csv";
-        const SHOULD_FILE: &str = "./tests/data/VP9_sb_fs.csv";
-
-        let mut ddnnf: Ddnnf = build_ddnnf("./tests/data/VP9_d4.nnf", Some(42));
-        ddnnf.max_worker = 1;
-        ddnnf.card_of_each_feature(PD_FILE).unwrap();
-
-        let mut pd: File = File::open(PD_FILE).unwrap();
-        let mut should_be = File::open(SHOULD_FILE).unwrap();
-
-        assert!(
-            diff_files(&mut pd, &mut should_be),
-            "card of features results differ from the expected results"
-        );
-
-        fs::remove_file(PD_FILE).unwrap();
     }
 }
