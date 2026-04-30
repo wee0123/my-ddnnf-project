@@ -1,58 +1,42 @@
-# ===== Rust build =====
 target/
 **/target/
 
-# ===== Python =====
 __pycache__/
 *.pyc
 *.pyo
 
-# ===== Temporary =====
 tmp/
 *.tmp
 *.swp
 *.swo
 
-# ===== Logs =====
 logs/
 *.log
 build.log
 test_output.txt
 
-# ===== Results =====
 results/
 !results/README_LAYOUT.md
 
-# ===== Compiled artifacts =====
 compiled/
 *.nnf
 
-# ===== Benchmarks raw large files =====
 benchmarks/cnf/
 *.cnf
 
-# ===== Third-party tool build outputs =====
-tools/dsharp/
-tools/ganak/
-tools/sharpSAT/
-tools/d4/
-tools/countAntom/
 tools/query-ddnnf/
 tools/ddnnf-reasoner-0.7.0/target/
 
-# ===== Archives =====
 *.tar
 *.tar.gz
 *.zip
 *.7z
 
-# ===== OS / editor =====
 .DS_Store
 Thumbs.db
 .vscode/
 .idea/
 
-# ===== Keep these directories if tracked =====
 !benchmarks/meta/
 !experiments/scripts/
 !my/
