@@ -9,9 +9,36 @@ pub mod stream;
 use std::collections::{BTreeSet, HashMap, HashSet};
 
 use itertools::Either;
-use rug::Integer;
+use rug::{Assign, Integer};
 
-use self::{clause_cache::ClauseCache, node::Node};
+use self::{
+    clause_cache::ClauseCache,
+    node::{Node, NodeType::*},
+};
+
+struct OmissionContext {
+    changed: Vec<bool>,
+    temp: Vec<Integer>,
+    seen: Vec<bool>,
+    touched: Vec<usize>,
+}
+
+impl OmissionContext {
+    fn new(node_count: usize) -> OmissionContext {
+        OmissionContext {
+            changed: vec![false; node_count],
+            temp: vec![Integer::ZERO; node_count],
+            seen: vec![false; node_count],
+            touched: Vec::new(),
+        }
+    }
+
+    #[inline]
+    fn set_zero(&mut self, index: usize) {
+        self.changed[index] = true;
+        self.temp[index].assign(Integer::ZERO);
+    }
+}
 
 #[derive(Clone, Debug)]
 /// A Ddnnf holds all the nodes as a vector, also includes metadata and further information that is used for optimations
@@ -191,6 +218,122 @@ impl Ddnnf {
             1 => self.card_of_feature_with_marker(features[0]),
             2..=20 => self.operate_on_partial_config_omitted(features),
             _ => self.operate_on_partial_config_default(features, Ddnnf::calc_count),
+        }
+    }
+
+    #[inline]
+    pub(crate) fn operate_on_partial_config_omitted(&mut self, features: &[i32]) -> Integer {
+        if self.query_is_not_sat(features) {
+            Integer::ZERO
+        } else {
+            let features: Vec<i32> = self.reduce_query(features);
+            let indexes: Vec<usize> = self.map_features_opposing_indexes(&features);
+
+            if indexes.is_empty() {
+                return self.rc();
+            }
+
+            self.omit_from_zero_literals(&indexes)
+        }
+    }
+
+    #[inline]
+    fn omit_from_zero_literals(&self, zero_literal_indexes: &[usize]) -> Integer {
+        let mut ctx = OmissionContext::new(self.nodes.len());
+
+        for &index in zero_literal_indexes {
+            ctx.set_zero(index);
+            for parent in self.nodes[index].parents.clone() {
+                self.collect_omission_ancestors(parent, &mut ctx);
+            }
+        }
+
+        ctx.touched.sort_unstable();
+
+        for i in ctx.touched.clone() {
+            self.calc_omitted_node(i, &mut ctx);
+        }
+
+        let root = self.nodes.len() - 1;
+        if ctx.changed[root] {
+            ctx.temp[root].clone()
+        } else {
+            self.rc()
+        }
+    }
+
+    #[inline]
+    fn collect_omission_ancestors(&self, index: usize, ctx: &mut OmissionContext) {
+        if ctx.seen[index] {
+            return;
+        }
+
+        ctx.seen[index] = true;
+        ctx.touched.push(index);
+
+        for parent in self.nodes[index].parents.clone() {
+            self.collect_omission_ancestors(parent, ctx);
+        }
+    }
+
+    #[inline]
+    fn calc_omitted_node(&self, index: usize, ctx: &mut OmissionContext) {
+        match &self.nodes[index].ntype {
+            And { children } => self.calc_omitted_and(index, children.clone(), ctx),
+            Or { children } => self.calc_omitted_or(index, children.clone(), ctx),
+            False => ctx.set_zero(index),
+            _ => (),
+        }
+    }
+
+    #[inline]
+    fn calc_omitted_and(&self, index: usize, children: Vec<usize>, ctx: &mut OmissionContext) {
+        let mut changed = false;
+        let mut product = Integer::from(1);
+
+        for child in children {
+            if ctx.changed[child] {
+                changed = true;
+                if ctx.temp[child] == 0 {
+                    ctx.set_zero(index);
+                    return;
+                }
+                product *= &ctx.temp[child];
+            } else {
+                if self.nodes[child].count == 0 {
+                    ctx.set_zero(index);
+                    return;
+                }
+                product *= &self.nodes[child].count;
+            }
+        }
+
+        if changed && product != self.nodes[index].count {
+            ctx.changed[index] = true;
+            ctx.temp[index] = product;
+        } else {
+            ctx.changed[index] = false;
+        }
+    }
+
+    #[inline]
+    fn calc_omitted_or(&self, index: usize, children: Vec<usize>, ctx: &mut OmissionContext) {
+        let mut changed = false;
+        let mut sum = self.nodes[index].count.clone();
+
+        for child in children {
+            if ctx.changed[child] {
+                changed = true;
+                sum -= &self.nodes[child].count;
+                sum += &ctx.temp[child];
+            }
+        }
+
+        if changed && sum != self.nodes[index].count {
+            ctx.changed[index] = true;
+            ctx.temp[index] = sum;
+        } else {
+            ctx.changed[index] = false;
         }
     }
 }

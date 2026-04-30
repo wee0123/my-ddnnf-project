@@ -28,7 +28,7 @@ use rug::{Complete, Integer};
 use crate::ddnnf::{node::Node, node::NodeType, Ddnnf};
 
 use crate::d4_lexer::D4Token::{And, False, Or, True};
-use petgraph::visit::{Dfs, IntoNeighborsDirected};
+use petgraph::visit::{Dfs, EdgeRef, IntoNeighborsDirected};
 use petgraph::{
     graph::{EdgeIndex, NodeIndex},
     stable_graph::StableGraph,
@@ -411,11 +411,9 @@ fn resolve_weighted_edges(
 
 //设置根结点+补全缺少变量（全局）
 fn attach_synthetic_root_and_missing_vars(ctx: &mut D4BuildContext) {
-    // add a new root which hold the unmentioned variables within the total_features range
     ctx.root = Option::from(ctx.graph.add_node(TId::And));
     ctx.graph.add_edge(ctx.root.unwrap(), NodeIndex::new(0), ());
 
-    // add literals that are not mentioned in the ddnnf to the new root node
     for i in 1..=ctx.total_features {
         if !ctx.literal_occurrences[i as usize] {
             ctx.attach_feature(i, ctx.root.unwrap());
@@ -443,7 +441,14 @@ fn simplify_constants(ctx: &mut D4BuildContext) {
 
         let mut cache = InfoCache::new();
 
-        let all_changed = simplify_with_rules(&mut ctx.graph, nodes, &mut cache, ctx.root);
+        let mut all_changed = simplify_with_rules(
+            &mut ctx.graph,
+            nodes,
+            &mut cache,
+            ctx.root,
+            &ctx.nx_literals,
+        );
+        all_changed |= merge_same_nodes(&mut ctx.graph, ctx.root);
 
         if !all_changed {
             break;
@@ -456,6 +461,7 @@ fn simplify_with_rules(
     nodes: Vec<NodeIndex>,
     cache: &mut InfoCache,
     root: Option<NodeIndex>,
+    nx_literals: &HashMap<NodeIndex, i32>,
 ) -> bool {
     let mut all_changed = false;
     for nx in nodes {
@@ -470,6 +476,12 @@ fn simplify_with_rules(
         changed |= remove_and_with_false(graph, nx, root);
         changed |= remove_or_with_true(graph, nx, root);
 
+        if graph.contains_node(nx) {
+            changed |= remove_and_with_opposite(graph, nx, nx_literals);
+        }
+        if graph.contains_node(nx) {
+            changed |= replace_empty_node(graph, nx);
+        }
         if graph.contains_node(nx) {
             changed |= flatten_same_type(graph, nx);
         }
@@ -489,6 +501,113 @@ fn simplify_with_rules(
     }
 
     all_changed
+}
+
+fn remove_children(graph: &mut StableGraph<TId, ()>, node: NodeIndex) {
+    let edges: Vec<_> = graph
+        .edges_directed(node, Outgoing)
+        .map(|e| e.id())
+        .collect();
+    for edge in edges {
+        graph.remove_edge(edge);
+    }
+}
+
+fn replace_empty_node(graph: &mut StableGraph<TId, ()>, node: NodeIndex) -> bool {
+    if graph[node] != TId::And && graph[node] != TId::Or {
+        return false;
+    }
+
+    if graph.neighbors_directed(node, Outgoing).next().is_some() {
+        return false;
+    }
+
+    if graph[node] == TId::And {
+        let parents: Vec<_> = graph.neighbors_directed(node, Incoming).collect();
+        for parent in parents {
+            if graph[parent] == TId::Or {
+                return false;
+            }
+        }
+        graph[node] = TId::True;
+    } else {
+        graph[node] = TId::False;
+    }
+    true
+}
+
+fn remove_and_with_opposite(
+    graph: &mut StableGraph<TId, ()>,
+    node: NodeIndex,
+    nx_literals: &HashMap<NodeIndex, i32>,
+) -> bool {
+    if graph[node] != TId::And {
+        return false;
+    }
+
+    let mut lits = HashSet::new();
+    let children: Vec<_> = graph.neighbors_directed(node, Outgoing).collect();
+    for child in children {
+        if graph[child] != TId::PositiveLiteral && graph[child] != TId::NegativeLiteral {
+            continue;
+        }
+        let lit = nx_literals[&child];
+        if lits.contains(&-lit) {
+            remove_children(graph, node);
+            graph[node] = TId::False;
+            return true;
+        }
+        lits.insert(lit);
+    }
+
+    false
+}
+
+fn merge_same_nodes(graph: &mut StableGraph<TId, ()>, root: Option<NodeIndex>) -> bool {
+    let mut map: HashMap<(u8, Vec<usize>), NodeIndex> = HashMap::new();
+    let nodes: Vec<_> = graph.node_indices().collect();
+    let mut changed = false;
+
+    for node in nodes {
+        if !graph.contains_node(node) {
+            continue;
+        }
+        if Some(node) == root {
+            continue;
+        }
+        if graph[node] != TId::And && graph[node] != TId::Or {
+            continue;
+        }
+
+        let mut children: Vec<_> = graph
+            .neighbors_directed(node, Outgoing)
+            .map(|n| n.index())
+            .collect();
+        children.sort_unstable();
+
+        let node_type = if graph[node] == TId::And { 0 } else { 1 };
+        let key = (node_type, children);
+
+        if let Some(&old_node) = map.get(&key) {
+            if !graph.contains_node(old_node) {
+                continue;
+            }
+
+            let parents: Vec<_> = graph.neighbors_directed(node, Incoming).collect();
+            for parent in parents {
+                if let Some(edge) = graph.find_edge(parent, node) {
+                    graph.remove_edge(edge);
+                }
+                graph.add_edge(parent, old_node, ());
+            }
+            graph.remove_node(node);
+            changed = true;
+        } else {
+            map.insert(key, node);
+        }
+    }
+
+    changed
 }
 
 // And(true, a)->And(a)
@@ -744,41 +863,6 @@ fn invalidate_upward(graph: &StableGraph<TId, ()>, cache: &mut InfoCache, start:
             stack.push(p);
         }
     }
-}
-
-fn check_and_decomposable(
-    ctx: &D4BuildContext,
-    cache: &mut InfoCache,
-    and_node: NodeIndex,
-) -> bool {
-    let children: Vec<_> = ctx.graph.neighbors_directed(and_node, Outgoing).collect();
-
-    for i in 0..children.len() {
-        let vi = collect_vars(&ctx.graph, &ctx.nx_literals, cache, children[i]);
-        for j in i + 1..children.len() {
-            let vj = collect_vars(&ctx.graph, &ctx.nx_literals, cache, children[j]);
-            if !vi.is_disjoint(&vj) {
-                return false;
-            }
-        }
-    }
-    true
-}
-
-fn check_or_smooth(ctx: &D4BuildContext, cache: &mut InfoCache, or_node: NodeIndex) -> bool {
-    let children: Vec<_> = ctx.graph.neighbors_directed(or_node, Outgoing).collect();
-    if children.len() <= 1 {
-        return true;
-    }
-
-    let base = collect_vars(&ctx.graph, &ctx.nx_literals, cache, children[0]);
-    for &ch in &children[1..] {
-        let vars = collect_vars(&ctx.graph, &ctx.nx_literals, cache, ch);
-        if vars != base {
-            return false;
-        }
-    }
-    true
 }
 
 //平滑化处理

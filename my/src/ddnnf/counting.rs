@@ -15,4 +15,3 @@ pub mod features;
 // Modules that provide the basic counting logic.
 pub mod default_count;
 pub mod marking;
-pub mod omission;
